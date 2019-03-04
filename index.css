@@ -1,3 +1,22 @@
+body {
+  background: black;
+  width: 600px;
+  margin: 15vh auto;
+  color: white;
+  text-align: center;
+}
+
+div {
+  font-family: "Impact";
+  font-size: 40px;
+}
+
 canvas {
-  border: 2px solid black;
+  border: 2px solid white;
+}
+
+footer {
+  width: 600px;
+  font-size: 9px;
+  font-family: "Tahoma";
 }

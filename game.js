@@ -4,6 +4,7 @@ class Score extends Object {
     this.x = x
     this.y = y
     this.w = this.h = 0
+    this.color = "white"
     this.number = 0
     this.refreshScore()
   }
@@ -22,7 +23,7 @@ class Food extends Object {
     super()
     this.snake = snake
     this.score = score
-    this.color = "red"
+    this.color = "white"
     this.w = this.h = sqmSize
   }
 
@@ -49,6 +50,7 @@ class Food extends Object {
 class SnakeNode extends Object {
   constructor() {
     super()
+    this.color = "white"
   }
 }
 
@@ -57,6 +59,7 @@ class Snake extends Object {
     super()
     this.w = this.h = sqmSize
     this.x = this.y = 100
+    this.color = "white"
     this.direction = 1
     this.nodes = []
   }
