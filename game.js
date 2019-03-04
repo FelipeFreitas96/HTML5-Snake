@@ -60,7 +60,7 @@ class Snake extends Object {
     this.w = this.h = sqmSize
     this.x = this.y = 100
     this.color = "white"
-    this.direction = 1
+    this.direction = [1]
     this.nodes = []
   }
 
@@ -78,20 +78,20 @@ class Snake extends Object {
     var lastPosX = this.x
     var lastPosY = this.y
 
-    if(this.direction == 0) {
+    if(this.direction[0] == 0) {
       this.y -= sqmSize
-    } else if(this.direction == 1) {
+    } else if(this.direction[0] == 1) {
       this.x += sqmSize
-    } else if(this.direction == 2) {
+    } else if(this.direction[0] == 2) {
       this.y += sqmSize
-    } else if(this.direction == 3) {
+    } else if(this.direction[0] == 3) {
       this.x -= sqmSize
     }
 
-    if(this.x < 0 || this.x > this.parent.canvas.width ||
-       this.y < 0 || this.y > this.parent.canvas.height) {
+    if(this.x < 0 || this.x >= this.parent.canvas.width ||
+       this.y < 0 || this.y >= this.parent.canvas.height) {
       this.parent.reset()
-      return;
+      return
     }
 
     for(let node of this.nodes) {
@@ -111,6 +111,9 @@ class Snake extends Object {
       }
     })
 
+    if(this.direction.length > 1)
+      this.direction.splice(0, 1)
+
     this.setDoingAction(50)
   }
 
@@ -123,16 +126,16 @@ class Snake extends Object {
         obj.w = obj.h = sqmSize
         obj.direction = this.lastNode.direction
 
-    if(obj.direction == 0) {
+    if(obj.direction[0] == 0) {
       obj.x = this.lastNode.x
       obj.y = this.lastNode.y + this.lastNode.h
-    } else if(obj.direction == 1) {
+    } else if(obj.direction[0] == 1) {
       obj.x = this.lastNode.x - this.lastNode.w
       obj.y = this.lastNode.y
-    } else if(obj.direction == 2) {
+    } else if(obj.direction[0] == 2) {
       obj.x = this.lastNode.x
       obj.y = this.lastNode.y - this.lastNode.w
-    } else if(obj.direction == 3) {
+    } else if(obj.direction[0] == 3) {
       obj.x = this.lastNode.x + this.lastNode.w
       obj.y = this.lastNode.y
     }
@@ -142,8 +145,15 @@ class Snake extends Object {
   }
 
   setDirection(dir) {
-    let oppositeDir = ({0: 2, 1: 3, 2: 0, 3: 1})[dir]
-    
-    this.direction = (this.direction != oppositeDir) ? dir : oppositeDir
+    if(this.pressed)
+      return
+
+    let oppositeList = {0: 2, 1: 3, 2: 0, 3: 1}
+    let newdir = (this.direction[0] != oppositeList[dir]) ? dir : oppositeList[dir]
+
+    if(this.direction.length >= 1 && this.direction.length <= 3) {
+      if(dir != oppositeList[this.direction[this.direction.length - 1]]) 
+        this.direction.push(dir)
+    }
   }
 }

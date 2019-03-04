@@ -2,7 +2,8 @@ class Keyboard {
   addKey(obj, keyCode, callback) {
     this.keyCodes[keyCode] = {callback: callback, obj: obj}
   }
-  loop(e) { 
+
+  keydown(e) { 
     for(let key in this.keyCodes) {
       if(e.keyCode == key) {
         let code = this.keyCodes[key]
@@ -10,9 +11,10 @@ class Keyboard {
       }
     }
   }	
+
   constructor() {
     this.keyCodes = {}
-    document.addEventListener("keydown", (e) => this.loop(e))
+    document.addEventListener("keydown", (e) => this.keydown(e))
   }       
 }
 
@@ -73,7 +75,8 @@ class Game {
   }
 
   loop() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
     for(let obj of this.objects) {
       this.ctx.fillStyle = obj.color;
 
@@ -83,9 +86,13 @@ class Game {
       if(obj.w > 0 && obj.h > 0)
         this.ctx.fillRect(obj.x, obj.y, obj.w, obj.h)
 
+      if(obj.image)
+        this.ctx.drawImage(obj.image, obj.x, obj.y, obj.w, obj.h)
+
       if(obj.onThink !== undefined)
         obj.onThink()
     }          
+
     this.requestAnimation = requestAnimationFrame(() => this.loop())
   }
 
