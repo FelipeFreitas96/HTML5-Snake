@@ -19,7 +19,7 @@ class Score extends Object {
 }
 
 class Food extends Object {
-  constructor(snake, score) {
+  constructor(score, snake) {
     super()
     this.snake = snake
     this.score = score
@@ -55,13 +55,41 @@ class SnakeNode extends Object {
 }
 
 class Snake extends Object {
-  constructor() {
+  constructor(score, name) {
     super()
+    this.name = name
+    this.score = score
     this.w = this.h = sqmSize
     this.x = this.y = 100
     this.color = "white"
     this.direction = [1]
     this.nodes = []
+  }
+
+  addScore() {
+    let username = this.name
+    if(username == "")
+      return;
+
+    let score = this.score.number
+    let table = this.parent.scores[username]
+    if(table) {
+      if(score > table.score) {
+        firebase.database().ref('highscore/'+table.key).update({ score: score })
+      }
+    } else {
+      let postData = {username: username, score: score}
+      let newPostKey = firebase.database().ref().child('highscore').push().key;
+      let updates = {};
+      updates['/highscore/' + newPostKey] = postData;
+
+      firebase.database().ref().update(updates);
+    }
+  }
+
+  callDeath() {
+    this.addScore()
+    this.parent.reset()
   }
 
   onAppend() {
@@ -90,7 +118,7 @@ class Snake extends Object {
 
     if(this.x < 0 || this.x >= this.parent.canvas.width ||
        this.y < 0 || this.y >= this.parent.canvas.height) {
-      this.parent.reset()
+      this.callDeath()
       return
     }
 
@@ -107,7 +135,7 @@ class Snake extends Object {
 
     this.onCollision((self, collider) => {
       if(collider instanceof SnakeNode) {
-        this.parent.reset()
+        this.callDeath()
       }
     })
 
