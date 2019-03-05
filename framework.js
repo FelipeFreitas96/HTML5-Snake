@@ -56,10 +56,27 @@ class Game {
     this.canvas = document.getElementsByTagName("canvas")[0];
     this.ctx = this.canvas.getContext("2d");
     this.objects = []
+    this.scores = []
     this.objectNumber = 0
     this.callback = null
     this.requestAnimation = requestAnimationFrame(() => this.loop())
   }   
+
+  highscoreList() {
+    var www = this
+    var highscore = document.getElementsByClassName("highscoreArea")[0]
+
+    firebase.database().ref().child("highscore").on('value', function(snapshot) {
+      highscore.innerHTML = '';
+      snapshot.forEach(function(child) {
+        var childData = child.val();
+        highscore.innerHTML += `<div>${childData.username} ${childData.score}</div>`
+
+        childData.key = child.key
+        www.scores[childData.username] = childData
+      });
+    });
+  }
 
   content(callback) {
     this.callback = callback

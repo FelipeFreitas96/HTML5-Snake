@@ -1,14 +1,25 @@
 body {
   background: black;
-  width: 600px;
-  margin: 15vh auto;
   color: white;
   text-align: center;
+  width: 800px;
+  margin: 15vh auto;
 }
 
-div {
+.gameArea {
   font-family: "Impact";
   font-size: 40px;
+  width: 600px;
+  float: left;
+}
+
+.scoreArea {
+  width: 175px;
+  height: 396px;
+  border: 2px solid white;
+  float: left;
+  margin-top: 0px;
+  margin-left: 20px;
 }
 
 canvas {

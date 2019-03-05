@@ -1,46 +1,57 @@
+<!DOCTYPE html>
 <html>
   <head>
+  	<meta charset="UTF-8">
+  	<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+  	<script src="firebase.js"></script>
     <script src="framework.js"></script>
     <script src="game.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css">
   </head>
-  <body>
-  <div>
-    SNAKE GAME
-    <canvas width="600" 
-            height="300">
-    </canvas>
-  </div>
-  <br>
-  <footer>
-    JavaScript/HTML5 canvas game
-    <br>
-    Felipe Freitas @ 2019
-  </footer>
-  </body> 
-  <script>
-    // Global Vars
-    var sqmSize = 10
+	<body>
+		<div class="gameArea">
+			SNAKE GAME
+			<canvas width="600" 
+			        height="300">
+			</canvas>
+			<br>
+			<footer>
+			JavaScript/HTML5 canvas game
+			<br>
+			Felipe Freitas @ 2019
+			</footer>
+		</div>
 
-    // Initing game
-    var game = new Game()
+		<div class="scoreArea">
+			Score:<br>
+			<div class="highscoreArea"></div>
+		</div>
+	</body> 
+	<script>
+		// Global Vars
+		var sqmSize = 10
 
-    game.content((obj) => {
-      var score = new Score(10, 10)
-      var snake = new Snake()
-      var food = new Food(snake, score)
-      var keyboard = new Keyboard()
-      
-      keyboard.addKey(snake, 38, () => snake.setDirection(0)) // Up (0)
-      keyboard.addKey(snake, 39, () => snake.setDirection(1)) // Right (1)
-      keyboard.addKey(snake, 40, () => snake.setDirection(2)) // Down (2)
-      keyboard.addKey(snake, 37, () => snake.setDirection(3)) // Left (3)
+		// Initing game
+		var game = new Game()
+		var name = prompt("Qual o seu nome?\n(Se estiver em branco não contará no Highscore)", "");
 
-      obj.appendObject(food)
-      obj.appendObject(snake)
-      obj.appendObject(score)
-    })
+		game.content((obj) => {
+			var score = new Score(10, 10)
+			var snake = new Snake(score, name)
+			var food = new Food(score, snake)
+			var keyboard = new Keyboard()
 
-    game.start()
-  </script>
+			keyboard.addKey(snake, 38, () => snake.setDirection(0)) // Up (0)
+			keyboard.addKey(snake, 39, () => snake.setDirection(1)) // Right (1)
+			keyboard.addKey(snake, 40, () => snake.setDirection(2)) // Down (2)
+			keyboard.addKey(snake, 37, () => snake.setDirection(3)) // Left (3)
+
+			obj.appendObject(food)
+			obj.appendObject(snake)
+			obj.appendObject(score)
+		})
+
+		game.start()
+		game.highscoreList()
+	</script>
 </html>
