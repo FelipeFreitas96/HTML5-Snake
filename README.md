@@ -1,4 +1,4 @@
 # HTML5 Snake Game
-http://felipefreitas96.github.io/html5-snake
+http://felipefreitas96.github.io/HTML5-Snake
 
 Play the Game!
