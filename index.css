@@ -20,6 +20,7 @@ body {
   float: left;
   margin-top: 0px;
   margin-left: 20px;
+  overflow-y: scroll;
 }
 
 canvas {
